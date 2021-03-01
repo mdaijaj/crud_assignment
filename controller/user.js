@@ -1,4 +1,6 @@
 const User_details=require('../models/users')
+let ejs = require('ejs')
+
 
 const add_detail= async(req,res)=>{
    console.log(req.body)
@@ -20,7 +22,7 @@ const all_data= async(req,res)=>{
    .then((all_data)=>{
        if(all_data.length){
            console.log(all_data)
-           res.send(all_data)
+           return res.render('index.ejs', {data: all_data})        //    res.send(all_data)
        }else{
            res.send("no found data.........")
        }
@@ -32,12 +34,12 @@ const all_data= async(req,res)=>{
 
 
 const single_data= async(req,res)=>{
-   const id=req.params._id
-   User_details.findById({_id: id})
-   .then((data)=>{
-       if(data.length){
-           console.log(all_data)
-           res.send(all_data)
+User_details.findOne(req.params.id)
+   .then((datas)=>{
+       if(datas){
+           console.log(datas)
+        //    res.send(datas)
+           return res.render('single.ejs', {data: datas})        //    res.send(all_data)
        }else{
            res.send("no found data of this id.........")
        }
